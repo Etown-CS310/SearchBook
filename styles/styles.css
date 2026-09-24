@@ -1,1 +1,14 @@
+body {
+    background-color: bisque;
+}
 
+#search-form {
+    margin: 10px;
+}
+
+#header-btns {
+    margin:auto;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
