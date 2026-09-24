@@ -1,14 +1,24 @@
 body {
-    background-color: bisque;
+    background: #FFEED8;
 }
 
 #search-form {
     margin: 10px;
 }
+main{
+    background-color: #FFDEA8;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
 
 #header-btns {
-    margin:auto;
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: center;
 }
