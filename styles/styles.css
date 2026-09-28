@@ -28,3 +28,25 @@ header {
 #header-btns > a {
     margin: 0;
 }
+
+.userStatBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 200px;
+  height: auto;
+  padding: 0.875rem 1rem;
+  background-color: #F3E7C4;
+  border: 2px solid #1C1917;
+  border-radius: 0;
+  text-align: left;
+  line-height: normal;
+  margin: 20px auto;
+  box-shadow: 3px 3px 0px 0px #1C1917;
+}
+
+.userStatBox p {
+  margin: 0;
+  font-family: "Courier Prime", monospace;
+  color: #1C1917;
+}
