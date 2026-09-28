@@ -1,9 +1,12 @@
 const form = document.getElementById("search-form");
 const results = document.getElementById("results");
+const outputBox = document.querySelector(".output-box");
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const domain = document.getElementById("domain").value;
+    outputBox.classList.remove("is-error");
+    outputBox.classList.add("is-loading");
     results.textContent = "Searching...";
 
     try {
@@ -11,6 +14,7 @@ form.addEventListener("submit", async (event) => {
         const data = await response.json();
 
         if (data.error) {
+            outputBox.classList.add("is-error");
             results.textContent = data.error;
             return;
         }
@@ -25,6 +29,9 @@ Ping (round trip): ${data.ping_ms ?? "No reply (server may block pings)"} ms
 Fiber distance (one way, approx): ${data.fiber_km ?? "n/a"} km / ${data.fiber_miles ?? "n/a"} mi
 Total lookup time: ${data.lookup_time_ms} ms`;
     } catch (err) {
+        outputBox.classList.add("is-error");
         results.textContent = "Something went wrong. Is the Python server running?";
+    } finally {
+        outputBox.classList.remove("is-loading");
     }
 });

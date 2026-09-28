@@ -2,6 +2,59 @@ body {
     background: #F7EFEB;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Newsreader", serif;
+    color: #1C1917;
+    margin: 0;
+}
+
+h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+h3 {
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+a {
+    font-family: "Courier Prime", monospace;
+    color: #1A365D;
+}
+
+a:hover {
+    color: #B83A24;
+}
+
+.nav-btn {
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1A365D;
+    text-decoration: none;
+}
+
+.nav-btn:hover {
+    color: #B83A24;
+    text-decoration: underline;
+}
+
 
 #search-form {
     margin: 10px;
@@ -27,4 +80,97 @@ header {
 
 #header-btns > a {
     margin: 0;
+}
+
+.userStatBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 200px;
+  height: auto;
+  padding: 0.875rem 1rem;
+  background-color: #F3E7C4;
+  border: 2px solid #1C1917;
+  border-radius: 0;
+  text-align: left;
+  line-height: normal;
+  margin: 20px auto;
+  box-shadow: 3px 3px 0px 0px #1C1917;
+}
+
+.userStatBox p {
+  margin: 0;
+  font-family: "Courier Prime", monospace;
+  color: #1C1917;
+}
+
+.output-box {
+    margin: 10px;
+    background-color: #FFFDF5;
+    border: 2px solid #1C1917;
+    box-shadow: 3px 3px 0px 0px #1C1917;
+}
+
+.output-box::before {
+    content: "SUBSCRIBER LOOKUP \2014 RESULT";
+    display: block;
+    background-color: #1A365D;
+    color: #FFFDF5;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 0.5rem 0.875rem;
+    border-bottom: 2px solid #1C1917;
+}
+
+#results {
+    margin: 0;
+    padding: 1rem 1.125rem;
+    min-height: 8rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 14px;
+    line-height: 24px;
+    color: #1C1917;
+    white-space: pre-wrap;
+    word-break: break-word;
+    background-origin: content-box;
+    background-image: repeating-linear-gradient(to bottom,
+            transparent,
+            transparent 23px,
+            rgba(28, 25, 23, 0.15) 23px,
+            rgba(28, 25, 23, 0.15) 24px);
+}
+
+#results:empty::before {
+    content: "NO QUERY ON RECORD \2014 ENTER A DOMAIN ABOVE TO BEGIN A TRACE.";
+    color: #57534E;
+    font-style: italic;
+    font-family: "Source Serif 4", serif;
+}
+
+.output-box.is-loading #results::after {
+    content: "\2588";
+    display: inline-block;
+    margin-left: 2px;
+    color: #B83A24;
+    animation: cursor-blink 1s steps(1) infinite;
+}
+
+.output-box.is-error #results {
+    color: #B83A24;
+    font-weight: 700;
+}
+
+@keyframes cursor-blink {
+
+    0%,
+    49% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 0;
+    }
 }
