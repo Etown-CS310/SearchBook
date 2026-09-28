@@ -2,6 +2,7 @@ body {
     background: #F7EFEB;
 }
 
+
 #search-form {
     margin: 10px;
 }
@@ -21,4 +22,9 @@ header {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    gap: 0.5rem;
+}
+
+#header-btns > a {
+    margin: 0;
 }
