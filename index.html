@@ -4,49 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap-->
+    <title>SearchBook</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Newsreader:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
         rel="stylesheet">
+
+    <!-- Leaflet (map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Your styles (keep this after Bootstrap so it wins) -->
     <link rel="stylesheet" href="./styles/styles.css">
-    <title>SearchBook</title>
 </head>
 
 <body>
+    <div class="page">
 
-    <header>
-        <h1>SearchBook</h1>
+        <header>
+            <h1>SearchBook</h1>
 
-        <div id="header-btns">
-            <a href="profile.html" class="nav-btn">Profile</a>
-            <a href="stats.html" class="nav-btn">Statistics</a>
-            <a href="about.html" class="nav-btn">About</a>
-        </div>
-    </header>
+            <div id="header-btns">
+                <a href="profile.html" class="nav-btn">Profile</a>
+                <a href="stats.html" class="nav-btn">Statistics</a>
+                <a href="about.html" class="nav-btn">About</a>
+            </div>
+        </header>
 
+        <main>
+            <form id="search-form" class="search-box">
+                <input id="domain" type="text" placeholder="example.com" required autocomplete="off">
+                <button type="submit">Search</button>
+            </form>
 
-    <main>
-        <div class="input-box">
-        <form id="search-form">
-            <input id="domain" type="text" placeholder="example.com" required>
-            <button type="submit">Search</button>
-        </form>
-        </div>
-        <div class="output-box">
-        <pre id="results"></pre>
-        </div>
-    </main>
+            <div class="output-box">
+                <div id="results"></div>
+                <div id="map" hidden></div>
+            </div>
+        </main>
 
-    <footer></footer>
+        <footer></footer>
+
+    </div>
 
     <script src="JavaScript.js"></script>
-
 </body>
 
 </html>
