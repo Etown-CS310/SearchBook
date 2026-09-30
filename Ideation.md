@@ -28,3 +28,16 @@ About page
 -background
 -goals
 -codebase info
+
+
+
+Database design
+-Using Firebase
+-Users:
+  +username
+  +email
+  +password
+  +(+=distance of every ping) total distance
+  +(++ per ping) total pings
+  +Days_in_Search_book (date of sign up to sysDate)
+  
