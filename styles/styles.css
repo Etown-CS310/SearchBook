@@ -57,42 +57,73 @@ a:hover {
     padding: 0 1.5rem 3rem;
 }
 
-header {
+/* ---------- Header bar ---------- */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1100;                       /* stays above the Leaflet map */
+
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem 1.5rem;
-    padding: 1.5rem 0;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding: 1rem max(1.5rem, calc((100% - 900px) / 2 + 1.5rem));
+
+    background: #FFE9C7;
+    box-shadow: 0 2px 8px rgba(28, 25, 23, 0.15);
+    margin-bottom: 2.5rem;
+}
+
+.site-header h1 {
+    font-family: "Newsreader", serif;
+    font-size: 2.1rem;
+    letter-spacing: 0.01em;
+    color: #9B2315;                       /* deep directory red */
+}
+
+.site-header h1::after {
+    content: "Telephone & Packet Directory";
+    display: block;
+    margin-top: 0.15rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #57534E;
 }
 
 #header-btns {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1.25rem;
+    gap: 0.4rem;
 }
 
-#header-btns > a {
-    margin: 0;
-}
-
-.nav-btn {
-    font-family: "Courier Prime", monospace;
-    font-weight: 700;
+.site-header .nav-btn {
+    padding: 0.5rem 0.9rem;
+    font-family: "Source Serif 4", serif;
     font-size: 0.8rem;
-    letter-spacing: 0.08em;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #1A365D;
+    color: #1A365D;                           /* navy tabs */
+    background: transparent;
+    border: 2px solid transparent;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+}
+
+.site-header .nav-btn:hover {
+    color: #1C1917;
+    background: #FFDEA8;                      /* amber on hover */
+    border-color: #1C1917;
     text-decoration: none;
 }
 
-.nav-btn:hover {
-    color: #B83A24;
-    text-decoration: underline;
-}
+
 
 /* ---------- Search box ---------- */
 
@@ -150,6 +181,49 @@ header {
 .search-box button:disabled {
     opacity: 0.6;
     cursor: wait;
+}
+
+
+.presets {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.presets-label {
+    margin-right: 0.25rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #57534E;
+}
+
+.preset-btn {
+    padding: 0.45rem 0.9rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1C1917;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 #1C1917;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+}
+
+.preset-btn:hover {
+    background: #FFDEA8;
+}
+
+.preset-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 #1C1917;
 }
 
 /* ---------- Output box ---------- */
@@ -447,4 +521,92 @@ header {
     letter-spacing: 0.05em;
     color: #57534E;
     border-top: 3px double #1C1917;
+}
+
+
+
+.intro {
+    margin-bottom: 1.5rem;
+}
+
+.intro-kicker {
+    margin: 0 0 0.35rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #B83A24;
+}
+
+.intro h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.intro p:last-child {
+    margin: 0;
+    max-width: 60ch;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: #44403C;
+}
+
+.how {
+    margin-top: 3rem;
+}
+
+.how h2 {
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+}
+
+.step {
+    position: relative;
+    padding: 1.25rem 1.1rem 1rem;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    box-shadow: 3px 3px 0 #1C1917;
+}
+
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.75rem;
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    color: #FFFDF5;
+    background: #B83A24;
+    border-radius: 50%;
+}
+
+.step h3 {
+    margin-bottom: 0.4rem;
+    font-size: 1.15rem;
+}
+
+.step p {
+    margin: 0 0 0.9rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #44403C;
+}
+
+.step code {
+    display: block;
+    padding: 0.35rem 0.5rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: #57534E;
+    background: #F3E7C4;
 }

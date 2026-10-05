@@ -70,4 +70,16 @@ Total lookup time: ${data.lookup_time_ms} ms`;
     } finally {
         outputBox.classList.remove("is-loading");
     }
+
+    
+});
+
+
+
+// Region preset buttons: fill the search box and run the normal search
+document.querySelectorAll(".preset-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+        document.getElementById("domain").value = btn.dataset.domain;
+        form.requestSubmit();
+    });
 });

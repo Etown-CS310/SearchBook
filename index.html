@@ -16,7 +16,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Newsreader:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Newsreader:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
         rel="stylesheet">
 
     <!-- Leaflet (map) -->
@@ -28,23 +29,44 @@
 </head>
 
 <body>
+
+
+    <header class="site-header">
+        <h1>SearchBook</h1>
+
+        <div id="header-btns">
+            <a href="profile.html" class="nav-btn">Profile</a>
+            <a href="stats.html" class="nav-btn">Statistics</a>
+            <a href="about.html" class="nav-btn">About</a>
+        </div>
+    </header>
     <div class="page">
 
-        <header>
-            <h1>SearchBook</h1>
 
-            <div id="header-btns">
-                <a href="profile.html" class="nav-btn">Profile</a>
-                <a href="stats.html" class="nav-btn">Statistics</a>
-                <a href="about.html" class="nav-btn">About</a>
-            </div>
-        </header>
 
         <main>
+
+            <section class="intro">
+                <p class="intro-kicker">Subscriber &amp; Server Directory</p>
+                <h2>Where in the world is that website?</h2>
+                <p>Enter any domain to find its IP address, where its server physically sits,
+                    and how long a packet takes to get there and back.</p>
+            </section>
             <form id="search-form" class="search-box">
                 <input id="domain" type="text" placeholder="example.com" required autocomplete="off">
                 <button type="submit">Search</button>
             </form>
+
+            <div class="presets" aria-label="Quick region lookups">
+                <span class="presets-label">Quick trace:</span>
+                <button type="button" class="preset-btn" data-domain="nasa.gov">US</button>
+                <button type="button" class="preset-btn" data-domain="europa.eu">Europe</button>
+                <button type="button" class="preset-btn" data-domain="baidu.com">China</button>
+                <button type="button" class="preset-btn" data-domain="yahoo.co.jp">Japan</button>
+                <button type="button" class="preset-btn" data-domain="india.gov.in">India</button>
+                <button type="button" class="preset-btn" data-domain="globo.com">Brazil</button>
+                <button type="button" class="preset-btn" data-domain="abc.net.au">Australia</button>
+            </div>
 
             <div class="output-box">
                 <div id="results"></div>
@@ -52,7 +74,39 @@
             </div>
         </main>
 
-        <footer class="site-footer">Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser || CS 310 Web Development</footer>
+        <section class="how">
+    <h2>How to place a long-distance packet call</h2>
+
+    <div class="steps">
+        <div class="step">
+            <span class="step-num">1</span>
+            <h3>Dial a domain</h3>
+            <p>Type any website address, or tap a region button for a quick trace.</p>
+            <code>OP: ENTER DOMAIN</code>
+        </div>
+        <div class="step">
+            <span class="step-num">2</span>
+            <h3>Look up the number</h3>
+            <p>DNS turns the name into the server's IP address, like finding a phone number in a phonebook.</p>
+            <code>OP: DNS LOOKUP</code>
+        </div>
+        <div class="step">
+            <span class="step-num">3</span>
+            <h3>Listen for the echo</h3>
+            <p>A ping measures the round-trip time, and we estimate the fiber distance from it.</p>
+            <code>OP: ICMP ECHO</code>
+        </div>
+        <div class="step">
+            <span class="step-num">4</span>
+            <h3>Find it on the map</h3>
+            <p>The IP address is matched to a city, provider and coordinates.</p>
+            <code>OP: GEOLOCATE</code>
+        </div>
+    </div>
+</section>
+
+        <footer class="site-footer">Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser ||
+            CS 310 Web Development</footer>
 
     </div>
 
