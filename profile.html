@@ -13,25 +13,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Newsreader:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="./styles/styles.css">
     <title>Profile</title>
 </head>
 
 <body>
-    <header>
-        <div id="profile-head">
-            <h1>[userName]'s Page</h1>
-            <h2>Where have you traveled?</h2>
+    <header class="site-header">
+        <h1><a href="index.html">SearchBook</a></h1>
 
-        </div>
         <div id="header-btns">
-            <a href="index.html" class="nav-btn">Home</a>
             <a href="profile.html" class="nav-btn">Profile</a>
             <a href="stats.html" class="nav-btn">Statistics</a>
             <a href="about.html" class="nav-btn">About</a>
         </div>
     </header>
-    <main>
+    <div class="page">
+        <main>
+            <section class="intro">
+                <p class="intro-kicker">Where have you traveled?</p>
+                <h2>[userName]'s Page</h2>
+            </section>
         <div class="userStatBox" id="user-info">
             <p>Days in SearchBook:</p>
             <p>Distance Traveled:</p>
@@ -43,6 +44,8 @@
     </main>
 
     <footer class="site-footer">Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser || CS 310 Web Development</footer>
+
+    </div>
 
 </body>
 

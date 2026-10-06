@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metric Tests</title>
+    <style>
+        body { font-family: monospace; background: #F7EFEB; color: #1C1917; padding: 1rem; }
+        .pass { color: #276749; }
+        .fail { color: #B83A24; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+    <!-- Open through a local server (Live Server or Flask), not file:// -->
+    <h1>netstats.js metric tests</h1>
+    <p id="summary">Running…</p>
+    <ul id="results"></ul>
+
+    <script type="module">
+        import {
+            median, jitter, haversineKm, theoreticalMinRttMs, overheadFactor, pickBaseline, summarizeRegion
+        } from "../js/netstats.js";
+
+        const list = document.getElementById("results");
+        let passed = 0;
+        let failed = 0;
+
+        // Numbers are compared with a tolerance; everything else must match exactly.
+        function check(name, actual, expected, tolerance = 1e-9) {
+            const ok = typeof expected === "number" && typeof actual === "number"
+                ? Math.abs(actual - expected) <= tolerance
+                : actual === expected;
+            ok ? passed++ : failed++;
+            const li = document.createElement("li");
+            li.className = ok ? "pass" : "fail";
+            li.textContent = `${ok ? "PASS" : "FAIL"}  ${name}  (got ${actual}, expected ${expected})`;
+            list.append(li);
+        }
+
+        // median
+        check("median of [100,110,105,120] is 107.5", median([100, 110, 105, 120]), 107.5);
+        check("median of odd-length [3,1,2] is 2", median([3, 1, 2]), 2);
+        check("median of one sample is that sample", median([42]), 42);
+        check("median of [] is null", median([]), null);
+        const original = [3, 1, 2];
+        median(original);
+        check("median does not reorder its input", original.join(","), "3,1,2");
+
+        // jitter
+        check("jitter of [100,110,105,120] is 10.0", jitter([100, 110, 105, 120]), 10);
+        check("jitter of a steady line is 0", jitter([50, 50, 50]), 0);
+        check("jitter of two samples is their gap", jitter([20, 35]), 15);
+        check("jitter of one sample is null (n/a)", jitter([100]), null);
+        check("jitter of [] is null (n/a)", jitter([]), null);
+
+        // theoretical minimum + overhead factor
+        check("min RTT for 1000 km is 10 ms", theoreticalMinRttMs(1000), 10);
+        check("overhead of 30 ms over 1000 km is 3.0x", overheadFactor(30, 1000), 3);
+        check("overhead of 12 ms over 6000 km is 0.2x", overheadFactor(12, 6000), 0.2);
+        check("overhead under 50 km is null (n/a)", overheadFactor(30, 40), null);
+        check("overhead at exactly 50 km is computed", overheadFactor(1, 50), 2);
+        check("overhead with unknown distance is null", overheadFactor(30, null), null);
+        check("overhead with no median is null", overheadFactor(null, 1000), null);
+
+        // haversine
+        check("same point is 0 km", haversineKm(40, -75, 40, -75), 0);
+        check("New York to London is ~5570 km", haversineKm(40.7128, -74.0060, 51.5074, -0.1278), 5570, 10);
+        check("1 degree of latitude is ~111.2 km", haversineKm(0, 0, 1, 0), 111.19, 0.05);
+
+        // baseline
+        check("baseline is the lowest median",
+            pickBaseline([{ id: "EU", medianMs: 90 }, { id: "NE", medianMs: 20 }, { id: "CN", medianMs: null }]), "NE");
+        check("no reachable regions means no baseline",
+            pickBaseline([{ id: "CN", medianMs: null }]), null);
+
+        // summarizeRegion
+        const region = { id: "EU", name: "Europe", lat: 51.5074, lon: -0.1278 };
+        const user = { lat: 40.7128, lon: -74.0060 };
+        const s = summarizeRegion(region, { samples: [100, 110, 105, 120], failed: 2 }, user);
+        check("summary median", s.medianMs, 107.5);
+        check("summary jitter", s.jitterMs, 10);
+        check("summary total counts failures", s.total, 6);
+        check("summary overhead uses haversine distance", s.overhead, 107.5 / (s.distanceKm / 100));
+        const down = summarizeRegion(region, { samples: [], failed: 10 }, null);
+        check("all failed means unreachable", down.unreachable, true);
+        check("unreachable median is null", down.medianMs, null);
+        check("no user location means distance is null", down.distanceKm, null);
+
+        const summary = document.getElementById("summary");
+        summary.textContent = `${passed} passed, ${failed} failed`;
+        summary.className = failed ? "fail" : "pass";
+    </script>
+</body>
+
+</html>

@@ -13,27 +13,75 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Newsreader:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="./styles/styles.css">
     <title>Stats</title>
 </head>
 
 <body>
-    <header>
-        <div id="stats-head">
-            <h1>Statistics</h1>
-            <h2>Explore the Internet</h2>
-
-        </div>
+    <header class="site-header">
+        <h1><a href="index.html">SearchBook</a></h1>
 
         <div id="header-btns">
-            <a href="index.html" class="nav-btn">Home</a>
             <a href="profile.html" class="nav-btn">Profile</a>
             <a href="stats.html" class="nav-btn">Statistics</a>
             <a href="about.html" class="nav-btn">About</a>
         </div>
     </header>
+    <div class="page">
+        <main>
+            <section class="intro">
+                <p class="intro-kicker">Explore the Internet</p>
+                <h2>Statistics</h2>
+                <p>Test your line to five regional exchanges. Each region gets 10 timed calls
+                    (plus one warm-up) and the results show how fast and how steady your connection is.</p>
+            </section>
+
+            <section class="netstats">
+                <div class="netstats-controls">
+                    <button id="run-test" class="netstats-btn" type="button">Run network test</button>
+                    <p id="test-progress" class="netstats-progress" aria-live="polite"></p>
+                </div>
+                <p id="user-location" class="netstats-meta"></p>
+
+                <div class="netstats-box">
+                    <table class="netstats-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Region</th>
+                                <th scope="col">Median</th>
+                                <th scope="col" title="Average change in latency between consecutive calls.">Jitter</th>
+                                <th scope="col" title="Measured round trip divided by the fastest physically possible round trip over fiber.">Overhead</th>
+                                <th scope="col">Distance</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="netstats-body"></tbody>
+                    </table>
+                    <p id="measured-at" class="netstats-measured">Not measured yet. Results reset when the page reloads.</p>
+                </div>
+
+                <dl class="netstats-help">
+                    <div>
+                        <dt>Jitter</dt>
+                        <dd>How much your latency changes from one call to the next; lower means a steadier line.</dd>
+                    </div>
+                    <div>
+                        <dt>Overhead factor</dt>
+                        <dd>Your measured round trip divided by the fastest a signal could make it over fiber (1.0× is perfect).</dd>
+                    </div>
+                    <div>
+                        <dt>Baseline</dt>
+                        <dd>Your fastest region, which approximates your own connection's delay before the long-distance part.</dd>
+                    </div>
+                </dl>
+            </section>
+        </main>
 
     <footer class="site-footer">Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser || CS 310 Web Development</footer>
+
+    </div>
+
+    <script type="module" src="./js/stats-page.js"></script>
 
 </body>
 

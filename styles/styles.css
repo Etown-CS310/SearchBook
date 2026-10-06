@@ -95,6 +95,12 @@ a:hover {
     color: #57534E;
 }
 
+.site-header h1 a {
+    font-family: inherit;
+    color: inherit;
+    text-decoration: none;
+}
+
 #header-btns {
     display: flex;
     flex-wrap: wrap;
@@ -609,4 +615,213 @@ a:hover {
     letter-spacing: 0.1em;
     color: #57534E;
     background: #F3E7C4;
+}
+/* ---------- Network stats (stats page) ---------- */
+
+.netstats-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.netstats-btn {
+    padding: 0.7rem 1.5rem;
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FFFDF5;
+    background: #1A365D;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #1C1917;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+}
+
+.netstats-btn:hover {
+    background: #B83A24;
+}
+
+.netstats-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 #1C1917;
+}
+
+.netstats-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    background: #1A365D;
+}
+
+.netstats-progress,
+.netstats-meta,
+.netstats-measured {
+    margin: 0;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.85rem;
+    color: #57534E;
+}
+
+.netstats-progress {
+    font-weight: 700;
+    color: #B83A24;
+}
+
+.netstats-meta {
+    margin-bottom: 1rem;
+}
+
+.netstats-box {
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    box-shadow: 4px 4px 0 #1C1917;
+    overflow: hidden;
+}
+
+.netstats-box::before {
+    content: "REGIONAL LINE TEST \2014 RESULTS";
+    display: block;
+    background-color: #1A365D;
+    color: #FFFDF5;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 0.6rem 1rem;
+    border-bottom: 2px solid #1C1917;
+}
+
+.netstats-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.netstats-table th {
+    padding: 0.6rem 0.75rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: left;
+    color: #57534E;
+    border-bottom: 2px solid #1C1917;
+}
+
+.netstats-table th[title] {
+    text-decoration: underline dotted;
+    cursor: help;
+}
+
+.netstats-table td {
+    padding: 0.65rem 0.75rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.95rem;
+    vertical-align: top;
+    border-bottom: 1px dashed #A8A29E;
+}
+
+.netstats-table td small {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.75rem;
+    color: #57534E;
+}
+
+.netstats-table td:first-child span {
+    font-family: "Newsreader", serif;
+    font-weight: 600;
+}
+
+.netstats-table tr.is-baseline td {
+    background: #FFDEA8;
+}
+
+.netstats-table tr.is-baseline td:last-child span {
+    font-weight: 700;
+    color: #9B2315;
+}
+
+.netstats-table tr.is-unreachable td {
+    color: #57534E;
+}
+
+.netstats-table tr.is-unreachable td:last-child span {
+    font-weight: 700;
+    color: #B83A24;
+}
+
+.netstats-measured {
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    background: #F3E7C4;
+}
+
+.netstats-help {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 0;
+}
+
+.netstats-help dt {
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #B83A24;
+}
+
+.netstats-help dd {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #44403C;
+}
+
+/* Phone width: each region becomes a stacked card instead of a wide table row */
+@media (max-width: 640px) {
+    .netstats-table thead {
+        display: none;
+    }
+
+    .netstats-table,
+    .netstats-table tbody,
+    .netstats-table tr,
+    .netstats-table td {
+        display: block;
+    }
+
+    .netstats-table tr {
+        padding: 0.5rem 0;
+        border-bottom: 2px solid #1C1917;
+    }
+
+    .netstats-table td {
+        display: grid;
+        grid-template-columns: 6.5rem 1fr;
+        column-gap: 0.75rem;
+        padding: 0.3rem 1rem;
+        border-bottom: none;
+    }
+
+    .netstats-table td::before {
+        content: attr(data-label);
+        grid-row: span 2;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #57534E;
+    }
+
+    .netstats-table td small {
+        grid-column: 2;
+        margin-top: 0;
+    }
+
+    .netstats-table tr.is-baseline {
+        background: #FFDEA8;
+    }
 }

@@ -2,7 +2,7 @@
 YOU MUST DO BELOW STEPS TO RUN THIS APP, THEN RUN THE CODE!!!
  
 Setup:  pip install -r Requirements.txt
-Run:    python app.py
+Run:    python backend.py
 Open:   http://127.0.0.1:5000
 """
 import socket
