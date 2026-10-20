@@ -893,7 +893,7 @@ a:hover {
     box-shadow: 0 0 0 #1C1917;
 }
 
-.signup button{
+#signup-form button {
     margin-top: 1.25rem;
     padding: 0.8rem;
     font-family: "Courier Prime", monospace;
@@ -909,6 +909,6 @@ a:hover {
     transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
 }
 
-.signup button:hover {
+#signup-form button:hover {
     background: #1A365D;
 }
