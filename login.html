@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchBook — Log In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600;700&family=Source+Serif+4&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <h1><a href="index.html">SearchBook</a></h1>
+        <nav id="header-btns">
+            <a class="nav-btn" href="index.html">Home</a>
+            <a class="nav-btn" href="login.html">Log In</a>
+        </nav>
+    </header>
+
+    <main class="page">
+        <div class="login-box">
+            <form id="login-form">
+                <label for="username">Username or Email</label>
+                <input type="text" id="username" name="username" placeholder="jane@example.com" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+                <button type="submit">Log In</button>
+            </form>
+            <form id="signup-form">
+                <p>Don't have an account?</p>
+                <button type="submit" class="signup">Sign Up</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser || CS
+        310 Web Development</p>
+    </footer>
+
+    <script src="scripts/login.js"></script>
+</body>
+</html>
