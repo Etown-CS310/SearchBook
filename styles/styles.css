@@ -912,3 +912,8 @@ a:hover {
 #signup-form button:hover {
     background: #1A365D;
 }
+
+#signup-form button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 #1C1917;
+}
