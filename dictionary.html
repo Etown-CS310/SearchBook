@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dictionary | SearchBook</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Newsreader:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- CHANGE THIS to your real stylesheet path if it is named differently -->
+<link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body>
+
+    <header class="site-header">
+        <h1><a href="index.html">SearchBook</a></h1>
+
+        <div id="header-btns">
+            <a href="profile.html" class="nav-btn">Profile</a>
+            <a href="stats.html" class="nav-btn">Statistics</a>
+            <a href="dictionary.html" class="nav-btn">Dictionary</a>
+            <a href="about.html" class="nav-btn">About</a>
+            <a href="login.html" class="nav-btn">Log In</a>
+        </div>
+    </header>
+
+<!-- MAIN CONTENT -->
+<main class="page">
+
+  <section class="intro">
+    <p class="intro-kicker">Reference desk</p>
+    <h2>Dictionary</h2>
+    <p>Plain-language definitions for the domain and packet terms you will run into while using SearchBook.</p>
+  </section>
+
+  <!-- A-Z index: each link jumps to the section with the matching id -->
+  <nav class="az-row" aria-label="Jump to letter">
+    <a href="#letter-A">A</a>
+    <a href="#letter-B">B</a>
+    <a href="#letter-C">C</a>
+    <a href="#letter-D">D</a>
+    <a href="#letter-F">F</a>
+    <a href="#letter-G">G</a>
+    <a href="#letter-H">H</a>
+    <a href="#letter-I">I</a>
+    <a href="#letter-L">L</a>
+    <a href="#letter-M">M</a>
+    <a href="#letter-N">N</a>
+    <a href="#letter-P">P</a>
+    <a href="#letter-R">R</a>
+    <a href="#letter-S">S</a>
+    <a href="#letter-T">T</a>
+    <a href="#letter-U">U</a>
+    <a href="#letter-W">W</a>
+  </nav>
+
+  <!-- ==================================================
+       HOW TO ADD A NEW TERM
+       1. Copy one whole <article> ... </article> block below
+       2. Paste it in the right letter section (keep A-Z order)
+       3. Change the id, the name, the topic, and the definition
+       data-cat can be: Domains, Packets, or Basics
+       (also change the tag text in the <span class="term-tag">)
+       ================================================== -->
+
+  <section class="letter-group" id="letter-A">
+    <h2>A</h2>
+
+    <article class="term" id="a-record" data-cat="Domains">
+      <div class="term-head">
+        <h3>A record</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>A DNS record that maps a domain name to an IPv4 address. It is what lets your browser turn a name into a place it can connect to.</p>
+      <code class="term-example">example.com  →  93.184.216.34</code>
+      <p class="see-also">See also: <a href="#dns">DNS</a> <a href="#ip-address">IP address</a> <a href="#domain-name">Domain name</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-B">
+    <h2>B</h2>
+
+    <article class="term" id="bandwidth" data-cat="Basics">
+      <div class="term-head">
+        <h3>Bandwidth</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>The maximum amount of data a connection can carry in a given amount of time, usually measured in megabits per second. It describes capacity, not delay.</p>
+      <p class="see-also">See also: <a href="#latency">Latency</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-C">
+    <h2>C</h2>
+
+    <article class="term" id="client" data-cat="Basics">
+      <div class="term-head">
+        <h3>Client</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>The device or program that asks for something, such as your browser requesting a web page from a server.</p>
+      <p class="see-also">See also: <a href="#server">Server</a></p>
+    </article>
+
+    <article class="term" id="cname-record" data-cat="Domains">
+      <div class="term-head">
+        <h3>CNAME record</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>A DNS record that makes one name an alias of another. Looking up the alias returns the answer for the target name.</p>
+      <code class="term-example">www.example.com  →  example.com</code>
+      <p class="see-also">See also: <a href="#a-record">A record</a> <a href="#dns">DNS</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-D">
+    <h2>D</h2>
+
+    <article class="term" id="dns" data-cat="Domains">
+      <div class="term-head">
+        <h3>DNS</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>The Domain Name System. It works like a phone book for the internet, translating domain names into IP addresses so devices can find each other.</p>
+      <p class="see-also">See also: <a href="#domain-name">Domain name</a> <a href="#nameserver">Nameserver</a> <a href="#a-record">A record</a></p>
+    </article>
+
+    <article class="term" id="domain-name" data-cat="Domains">
+      <div class="term-head">
+        <h3>Domain name</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>A human-readable address for a site, such as example.com. Domain names exist so people do not have to remember numeric IP addresses.</p>
+      <p class="see-also">See also: <a href="#dns">DNS</a> <a href="#subdomain">Subdomain</a> <a href="#tld">TLD</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-F">
+    <h2>F</h2>
+
+    <article class="term" id="firewall" data-cat="Basics">
+      <div class="term-head">
+        <h3>Firewall</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>Software or hardware that allows or blocks network traffic based on rules, such as which ports or addresses may connect.</p>
+      <p class="see-also">See also: <a href="#port">Port</a> <a href="#packet">Packet</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-G">
+    <h2>G</h2>
+
+    <article class="term" id="geolocation" data-cat="Basics">
+      <div class="term-head">
+        <h3>Geolocation</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>Estimating the physical location of an IP address using public registration data and databases. It is approximate: often accurate to a city or region, not a street.</p>
+      <p class="see-also">See also: <a href="#ip-address">IP address</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-H">
+    <h2>H</h2>
+
+    <article class="term" id="header" data-cat="Packets">
+      <div class="term-head">
+        <h3>Header</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>The control information at the front of a packet. It carries details such as the source and destination addresses, the protocol, and the packet&#x27;s length.</p>
+      <p class="see-also">See also: <a href="#packet">Packet</a> <a href="#payload">Payload</a> <a href="#ttl">TTL</a></p>
+    </article>
+
+    <article class="term" id="hop" data-cat="Packets">
+      <div class="term-head">
+        <h3>Hop</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>One step a packet takes from one router to the next on its way to its destination. A trip across the internet is usually many hops.</p>
+      <p class="see-also">See also: <a href="#router">Router</a> <a href="#ttl">TTL</a> <a href="#traceroute">Traceroute</a></p>
+    </article>
+
+    <article class="term" id="http-https" data-cat="Basics">
+      <div class="term-head">
+        <h3>HTTP / HTTPS</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>The protocol browsers and web servers use to exchange pages and data. HTTPS is the same protocol wrapped in encryption, so others on the network cannot read the contents.</p>
+      <p class="see-also">See also: <a href="#protocol">Protocol</a> <a href="#tls">TLS</a> <a href="#port">Port</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-I">
+    <h2>I</h2>
+
+    <article class="term" id="ip-address" data-cat="Basics">
+      <div class="term-head">
+        <h3>IP address</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>A numeric label that identifies a device on a network and tells packets where to go. IPv4 addresses look like 192.0.2.1; IPv6 addresses are longer and use hexadecimal.</p>
+      <p class="see-also">See also: <a href="#dns">DNS</a> <a href="#packet">Packet</a> <a href="#geolocation">Geolocation</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-L">
+    <h2>L</h2>
+
+    <article class="term" id="latency" data-cat="Packets">
+      <div class="term-head">
+        <h3>Latency</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>The time it takes for a packet to travel from one point to another, often measured as round-trip time in milliseconds. Lower is better.</p>
+      <p class="see-also">See also: <a href="#bandwidth">Bandwidth</a> <a href="#hop">Hop</a> <a href="#packet-loss">Packet loss</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-M">
+    <h2>M</h2>
+
+    <article class="term" id="mac-address" data-cat="Basics">
+      <div class="term-head">
+        <h3>MAC address</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>A hardware identifier assigned to a network interface. It is used for delivery within a local network, while IP addresses handle delivery across networks.</p>
+      <p class="see-also">See also: <a href="#ip-address">IP address</a> <a href="#router">Router</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-N">
+    <h2>N</h2>
+
+    <article class="term" id="nameserver" data-cat="Domains">
+      <div class="term-head">
+        <h3>Nameserver</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>A server that stores DNS records for a domain and answers questions about it. A domain&#x27;s registrar settings point to its authoritative nameservers.</p>
+      <p class="see-also">See also: <a href="#dns">DNS</a> <a href="#registrar">Registrar</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-P">
+    <h2>P</h2>
+
+    <article class="term" id="packet" data-cat="Packets">
+      <div class="term-head">
+        <h3>Packet</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>A small chunk of data sent over a network. Large messages, such as a web page, are split into many packets that are reassembled at the destination.</p>
+      <p class="see-also">See also: <a href="#header">Header</a> <a href="#payload">Payload</a> <a href="#hop">Hop</a></p>
+    </article>
+
+    <article class="term" id="packet-loss" data-cat="Packets">
+      <div class="term-head">
+        <h3>Packet loss</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>When one or more packets fail to arrive. It can be caused by congestion, weak signals, or faulty equipment, and it often shows up as stutter or slow loading.</p>
+      <p class="see-also">See also: <a href="#packet">Packet</a> <a href="#latency">Latency</a> <a href="#tcp">TCP</a></p>
+    </article>
+
+    <article class="term" id="packet-sniffing" data-cat="Packets">
+      <div class="term-head">
+        <h3>Packet sniffing</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>Capturing and inspecting packets as they cross a network. Network administrators use it to troubleshoot; it is also why unencrypted traffic can be read by others.</p>
+      <p class="see-also">See also: <a href="#packet">Packet</a> <a href="#http-https">HTTP / HTTPS</a> <a href="#tls">TLS</a></p>
+    </article>
+
+    <article class="term" id="payload" data-cat="Packets">
+      <div class="term-head">
+        <h3>Payload</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>The actual data a packet carries, as opposed to the header, which describes how to deliver it.</p>
+      <p class="see-also">See also: <a href="#header">Header</a> <a href="#packet">Packet</a></p>
+    </article>
+
+    <article class="term" id="port" data-cat="Basics">
+      <div class="term-head">
+        <h3>Port</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>A number that identifies a specific service on a device, so one IP address can run many services. Web servers commonly use port 80 for HTTP and 443 for HTTPS.</p>
+      <p class="see-also">See also: <a href="#ip-address">IP address</a> <a href="#firewall">Firewall</a> <a href="#http-https">HTTP / HTTPS</a></p>
+    </article>
+
+    <article class="term" id="protocol" data-cat="Basics">
+      <div class="term-head">
+        <h3>Protocol</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>An agreed set of rules for how devices communicate. TCP, UDP, HTTP, and DNS are all protocols.</p>
+      <p class="see-also">See also: <a href="#tcp">TCP</a> <a href="#udp">UDP</a> <a href="#http-https">HTTP / HTTPS</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-R">
+    <h2>R</h2>
+
+    <article class="term" id="registrar" data-cat="Domains">
+      <div class="term-head">
+        <h3>Registrar</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>A company accredited to sell and manage domain name registrations. You rent a domain through a registrar, usually on a yearly basis.</p>
+      <p class="see-also">See also: <a href="#domain-name">Domain name</a> <a href="#whois">WHOIS</a> <a href="#nameserver">Nameserver</a></p>
+    </article>
+
+    <article class="term" id="router" data-cat="Basics">
+      <div class="term-head">
+        <h3>Router</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>A device that forwards packets between networks, choosing the next hop on the path toward the destination.</p>
+      <p class="see-also">See also: <a href="#hop">Hop</a> <a href="#packet">Packet</a> <a href="#mac-address">MAC address</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-S">
+    <h2>S</h2>
+
+    <article class="term" id="server" data-cat="Basics">
+      <div class="term-head">
+        <h3>Server</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>A computer or program that provides data or services to clients, such as a web server that delivers pages.</p>
+      <p class="see-also">See also: <a href="#client">Client</a> <a href="#port">Port</a></p>
+    </article>
+
+    <article class="term" id="subdomain" data-cat="Domains">
+      <div class="term-head">
+        <h3>Subdomain</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>A prefix added in front of a domain to create a separate section or service. In blog.example.com, blog is a subdomain of example.com.</p>
+      <p class="see-also">See also: <a href="#domain-name">Domain name</a> <a href="#tld">TLD</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-T">
+    <h2>T</h2>
+
+    <article class="term" id="tcp" data-cat="Packets">
+      <div class="term-head">
+        <h3>TCP</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>Transmission Control Protocol. It sets up a connection, numbers packets, and resends any that go missing, so data arrives complete and in order. Web pages and email typically use it.</p>
+      <p class="see-also">See also: <a href="#udp">UDP</a> <a href="#packet-loss">Packet loss</a> <a href="#protocol">Protocol</a></p>
+    </article>
+
+    <article class="term" id="tld" data-cat="Domains">
+      <div class="term-head">
+        <h3>TLD</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>Top-level domain: the last part of a domain name, such as .com, .org, .edu, or a country code like .uk.</p>
+      <p class="see-also">See also: <a href="#domain-name">Domain name</a> <a href="#subdomain">Subdomain</a></p>
+    </article>
+
+    <article class="term" id="tls" data-cat="Basics">
+      <div class="term-head">
+        <h3>TLS</h3>
+        <span class="term-tag">Network basics</span>
+      </div>
+      <p>Transport Layer Security. The encryption technology behind HTTPS that keeps data private and confirms you are talking to the real site.</p>
+      <p class="see-also">See also: <a href="#http-https">HTTP / HTTPS</a> <a href="#packet-sniffing">Packet sniffing</a></p>
+    </article>
+
+    <article class="term" id="traceroute" data-cat="Packets">
+      <div class="term-head">
+        <h3>Traceroute</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>A tool that shows the path packets take to a destination by listing each hop and how long it took. It is a good way to see network paths in action.</p>
+      <p class="see-also">See also: <a href="#hop">Hop</a> <a href="#ttl">TTL</a> <a href="#latency">Latency</a></p>
+    </article>
+
+    <article class="term" id="ttl" data-cat="Packets">
+      <div class="term-head">
+        <h3>TTL</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>Time to live. In a packet header, it is a counter that drops by one at every hop; when it reaches zero the packet is discarded, which stops packets from circling forever. In DNS, TTL is how long a record may be cached.</p>
+      <p class="see-also">See also: <a href="#hop">Hop</a> <a href="#header">Header</a> <a href="#dns">DNS</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-U">
+    <h2>U</h2>
+
+    <article class="term" id="udp" data-cat="Packets">
+      <div class="term-head">
+        <h3>UDP</h3>
+        <span class="term-tag">Packets</span>
+      </div>
+      <p>User Datagram Protocol. It sends packets without setting up a connection or checking delivery, which makes it fast. Video calls, games, and DNS queries often use it.</p>
+      <p class="see-also">See also: <a href="#tcp">TCP</a> <a href="#protocol">Protocol</a> <a href="#packet-loss">Packet loss</a></p>
+    </article>
+  </section>
+
+  <section class="letter-group" id="letter-W">
+    <h2>W</h2>
+
+    <article class="term" id="whois" data-cat="Domains">
+      <div class="term-head">
+        <h3>WHOIS</h3>
+        <span class="term-tag">Domains</span>
+      </div>
+      <p>A public lookup service that reports registration details for a domain, such as the registrar and when it was created or expires. Owner details are often hidden by privacy services.</p>
+      <p class="see-also">See also: <a href="#registrar">Registrar</a> <a href="#domain-name">Domain name</a></p>
+    </article>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">SearchBook &middot; Etown CS310</footer>
+
+</body>
+</html>
