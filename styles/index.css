@@ -1,0 +1,310 @@
+/* ---------- Search box ---------- */
+
+.search-box {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    margin: 0 0 2rem;
+    background: #FFDEA8;
+    border: 2px solid #1C1917;
+    box-shadow: 4px 4px 0 #1C1917;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.8rem 1rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 1.15rem;
+    color: #1C1917;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+}
+
+.search-box input:focus {
+    outline: 3px solid #1A365D;
+    outline-offset: 2px;
+}
+
+.search-box button {
+    padding: 0 1.75rem;
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FFFDF5;
+    background: #1A365D;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #1C1917;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+}
+
+.search-box button:hover {
+    background: #B83A24;
+}
+
+.search-box button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 #1C1917;
+}
+
+.search-box button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+
+.presets {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.presets-label {
+    margin-right: 0.25rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #57534E;
+}
+
+.preset-btn {
+    padding: 0.45rem 0.9rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1C1917;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 #1C1917;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+}
+
+.preset-btn:hover {
+    background: #FFDEA8;
+}
+
+.preset-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 #1C1917;
+}
+
+/* ---------- Output box ---------- */
+
+.output-box {
+    margin: 0;
+    background-color: #FFFDF5;
+    border: 2px solid #1C1917;
+    box-shadow: 4px 4px 0 #1C1917;
+    overflow: hidden;
+}
+
+.output-box::before {
+    content: "SUBSCRIBER LOOKUP \2014 RESULT";
+    display: block;
+    background-color: #1A365D;
+    color: #FFFDF5;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 0.6rem 1rem;
+    border-bottom: 2px solid #1C1917;
+}
+
+#results {
+    margin: 0;
+    padding: 1rem 1.125rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 14px;
+    line-height: 24px;
+    color: #1C1917;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Ruled-paper lines only show while empty */
+#results:empty {
+    min-height: 8rem;
+    background-origin: content-box;
+    background-image: repeating-linear-gradient(to bottom,
+            transparent,
+            transparent 23px,
+            rgba(28, 25, 23, 0.15) 23px,
+            rgba(28, 25, 23, 0.15) 24px);
+}
+
+#results:empty::before {
+    content: "NO QUERY ON RECORD \2014 ENTER A DOMAIN ABOVE TO BEGIN A TRACE.";
+    color: #57534E;
+    font-style: italic;
+    font-family: "Source Serif 4", serif;
+}
+
+/* Remove padding when result cards are showing */
+#results:has(.result-grid) {
+    padding: 0;
+    white-space: normal;
+}
+
+/* ---------- Result cards ---------- */
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: rgba(28, 25, 23, 0.2);
+}
+
+.result-grid > div {
+    padding: 1rem 1.25rem;
+    background: #FFFDF5;
+}
+
+.result-grid > div.wide {
+    grid-column: 1 / -1;
+}
+
+.result-grid dt {
+    font-family: "Courier Prime", monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: #57534E;
+}
+
+.result-grid dd {
+    margin: 0.25rem 0 0;
+    font-family: "Newsreader", serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+/* ---------- Map ---------- */
+
+#map {
+    height: 320px;
+    border-top: 2px solid #1C1917;
+    background: #F3E7C4;
+}
+
+/* Sepia tint so the map matches the paper palette */
+.leaflet-tile-pane {
+    filter: sepia(0.6) contrast(0.95);
+}
+
+/* ---------- Loading / error states ---------- */
+
+.output-box.is-loading #results::after {
+    content: "\2588";
+    display: inline-block;
+    margin-left: 2px;
+    color: #B83A24;
+    animation: cursor-blink 1s steps(1) infinite;
+}
+
+.output-box.is-error #results {
+    color: #B83A24;
+    font-weight: 700;
+}
+
+@keyframes cursor-blink {
+
+    0%,
+    49% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+
+/* ---------- How it works ---------- */
+
+.how {
+    margin-top: 3rem;
+}
+
+.how h2 {
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+}
+
+.step {
+    position: relative;
+    padding: 1.25rem 1.1rem 1rem;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    box-shadow: 3px 3px 0 #1C1917;
+}
+
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.75rem;
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    color: #FFFDF5;
+    background: #B83A24;
+    border-radius: 50%;
+}
+
+.step h3 {
+    margin-bottom: 0.4rem;
+    font-size: 1.15rem;
+}
+
+.step p {
+    margin: 0 0 0.9rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #44403C;
+}
+
+.step code {
+    display: block;
+    padding: 0.35rem 0.5rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: #57534E;
+    background: #F3E7C4;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 520px) {
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box button {
+        padding: 0.8rem 1.75rem;
+    }
+}

@@ -1,0 +1,128 @@
+/* ---------- Dictionary page ---------- */
+
+html {
+    scroll-padding-top: 6.5rem;           /* clear the sticky header when jumping to a letter */
+}
+
+/* Filters reuse .presets / .preset-btn; this adds the "selected" state */
+.preset-btn[aria-pressed="true"] {
+    color: #FFFDF5;
+    background: #1A365D;
+}
+
+.dict-count {
+    margin: 0 0 1rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.85rem;
+    color: #57534E;
+}
+
+/* ---------- A-Z index ---------- */
+
+.az-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0 0 1rem;
+}
+
+.az-row a {
+    min-width: 2.1rem;
+    padding: 0.3rem 0.5rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    color: #1A365D;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    box-shadow: 2px 2px 0 #1C1917;
+}
+
+.az-row a:hover {
+    color: #1C1917;
+    background: #FFDEA8;
+}
+
+/* ---------- Entries ---------- */
+
+.letter-group h2 {
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px double #1C1917;
+}
+
+.term {
+    margin: 0 0 1rem;
+    padding: 1rem 1.25rem;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    box-shadow: 3px 3px 0 #1C1917;
+}
+
+.term-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
+    margin-bottom: 0.4rem;
+}
+
+.term-head h3 {
+    color: #1A365D;
+}
+
+.term-tag {
+    padding: 0.1rem 0.45rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #57534E;
+    background: #F3E7C4;
+    border: 1px solid #1C1917;
+}
+
+.term[data-cat="Packets"] .term-tag {
+    color: #FFFDF5;
+    background: #B83A24;
+}
+
+.term[data-cat="Domains"] .term-tag {
+    color: #FFFDF5;
+    background: #1A365D;
+}
+
+.term p {
+    margin: 0 0 0.6rem;
+    max-width: 62ch;
+    line-height: 1.55;
+    color: #44403C;
+}
+
+.term .term-example {
+    display: block;
+    margin: 0 0 0.6rem;
+    padding: 0.35rem 0.6rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.85rem;
+    color: #57534E;
+    background: #F3E7C4;
+}
+
+.term .see-also {
+    margin: 0;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.8rem;
+    color: #57534E;
+}
+
+.term .see-also a {
+    margin-left: 0.6rem;
+}
+
+.dict-empty {
+    padding: 2rem 0;
+    font-style: italic;
+    color: #57534E;
+}
