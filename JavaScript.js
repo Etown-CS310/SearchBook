@@ -83,3 +83,22 @@ document.querySelectorAll(".preset-btn").forEach((btn) => {
         form.requestSubmit();
     });
 });
+
+
+
+(function initChat() {
+    const toggle = document.getElementById("sbChatToggle");
+    const panel = document.getElementById("sbChat");
+    const log = document.getElementById("sbChatLog");
+    const chatForm = document.getElementById("sbChatForm");
+    const input = document.getElementById("sbChatInput");
+    const send = document.getElementById("sbChatSend");
+    if (!toggle || !panel || !log || !chatForm || !input || !send) return;
+
+ 
+    const history = [];   // {role, content} pairs sent to the server each time
+
+    //addMessage functon - TODO
+ 
+    
+})();

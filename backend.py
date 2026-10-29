@@ -11,11 +11,25 @@ import time
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 from ping3 import ping
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__, static_folder=".", static_url_path="")
 
 FIBER_KM_PER_MS = 200 # Speed of Fiber optic
 
+client = OpenAI()
+CHAT_MODEL = "gpt-6-luna"
+
+SYSTEM_PROMPT = """You are the operator for SearchBook, a Telephone & Packet Directory
+website that looks up a domain's IP address, the physical location of its server,
+and the round-trip time of a ping. Help visitors understand networking terms
+(DNS, IP addresses, ping, latency, geolocation, CDNs) and their search results.
+Use plain language and short answers, two to four sentences. Use the phonebook and
+telephone metaphor when it helps. If asked about something unrelated to the
+internet, DNS, or this site, politely steer back to those topics."""
 
 def clean_domain(text):
     text = text.strip().lower()
@@ -74,6 +88,21 @@ def lookup():
         lookup_time_ms=round((time.perf_counter() - start) * 1000),
     )
 
+@app.route("/api/chat", methods=["POST"])
+def chat():
+    data = request.get_json(silent=True) or {}
+    history = data.get("messages", [])
+    #request to get JSON
+ 
+    # Keep only the last 10 turns and cap length, to limit cost and abuse.
+
+
+    #Keep chat history
+
+
+
+    #create chat bot
+ 
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,3 +1,5 @@
 flask
 ping3
 requests
+openai
+python-dotenv
