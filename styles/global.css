@@ -1,0 +1,187 @@
+/* ---------- Base ---------- */
+
+body {
+    background: #F7EFEB;
+    font-family: "Source Serif 4", serif;
+    color: #1C1917;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Newsreader", serif;
+    color: #1C1917;
+    margin: 0;
+}
+
+h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+h3 {
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+a {
+    font-family: "Courier Prime", monospace;
+    color: #1A365D;
+}
+
+a:hover {
+    color: #B83A24;
+}
+
+/* ---------- Layout ---------- */
+
+.page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+}
+
+/* ---------- Header bar ---------- */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1100;                       /* stays above the Leaflet map */
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding: 1rem max(1.5rem, calc((100% - 900px) / 2 + 1.5rem));
+
+    background: #FFE9C7;
+    box-shadow: 0 2px 8px rgba(28, 25, 23, 0.15);
+    margin-bottom: 2.5rem;
+}
+
+.site-header h1 {
+    font-family: "Newsreader", serif;
+    font-size: 2.1rem;
+    letter-spacing: 0.01em;
+    color: #9B2315;                       /* deep directory red */
+}
+
+.site-header h1::after {
+    content: "Telephone & Packet Directory";
+    display: block;
+    margin-top: 0.15rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #57534E;
+}
+
+.site-header h1 a {
+    font-family: inherit;
+    color: inherit;
+    text-decoration: none;
+}
+
+#header-btns {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.site-header .nav-btn {
+    padding: 0.5rem 0.9rem;
+    font-family: "Source Serif 4", serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1A365D;                           /* navy tabs */
+    background: transparent;
+    border: 2px solid transparent;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+}
+
+.site-header .nav-btn:hover {
+    color: #1C1917;
+    background: #FFDEA8;                      /* amber on hover */
+    border-color: #1C1917;
+    text-decoration: none;
+}
+
+
+.site-header .nav-btn[aria-current="page"] {
+    background: #FFDEA8;
+    border-color: #1C1917;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    padding: 1rem 1.5rem 2rem;
+    text-align: center;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: #57534E;
+    border-top: 3px double #1C1917;
+}
+
+
+/* ---------- Page intro ---------- */
+
+.intro {
+    margin-bottom: 1.5rem;
+}
+
+.intro-kicker {
+    margin: 0 0 0.35rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #B83A24;
+}
+
+.intro h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.intro p:last-child {
+    margin: 0;
+    max-width: 60ch;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: #44403C;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 520px) {
+    h1 {
+        font-size: 2.1rem;
+    }
+}

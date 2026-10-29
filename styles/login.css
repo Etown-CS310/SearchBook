@@ -1,0 +1,91 @@
+/* ---------- Login page ---------- */
+
+.login-box {
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: #FFDEA8;
+    border: 2px solid #1C1917;
+    box-shadow: 4px 4px 0 #1C1917;
+}
+
+.login-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.login-box label {
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #57534E;
+    margin-top: 0.5rem;
+}
+
+.login-box input {
+    padding: 0.75rem 1rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 1rem;
+    color: #1C1917;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+}
+
+.login-box input:focus {
+    outline: 3px solid #1A365D;
+    outline-offset: 2px;
+}
+
+.login-box button {
+    margin-top: 1.25rem;
+    padding: 0.8rem;
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FFFDF5;
+    background: #1A365D;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #1C1917;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+}
+
+.login-box button:hover {
+    background: #B83A24;
+}
+
+.login-box button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 #1C1917;
+}
+
+#signup-form button {
+    margin-top: 1.25rem;
+    padding: 0.8rem;
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FFFDF5;
+    background: #B83A24;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #1C1917;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+}
+
+#signup-form button:hover {
+    background: #1A365D;
+}
+
+#signup-form button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 #1C1917;
+}

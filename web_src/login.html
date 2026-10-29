@@ -6,16 +6,13 @@
     <title>SearchBook — Log In</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600;700&family=Source+Serif+4&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/login.css">
 </head>
 <body>
 
-    <header class="site-header">
-        <h1><a href="index.html">SearchBook</a></h1>
-        <nav id="header-btns">
-            <a class="nav-btn" href="index.html">Home</a>
-        </nav>
-    </header>
+    <div id="site-header"></div>
+    <script src="../js/header.js"></script>
 
     <main class="page">
         <div class="login-box">
@@ -32,16 +29,12 @@
         <div class="login-box">
             <form id="signup-form">
                 <label>Don't have an account?</label>
-                <button type="submit" class="signup">Sign Up</button>
+                <button type="submit" class="signup"><a href="signup.html" style="text-decoration: none">Sign Up</a></button>
             </form>
         </div>
     </main>
 
-    <footer class="site-footer">
-        <p>Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser || CS
-        310 Web Development</p>
-    </footer>
-
-    <script src="scripts/login.js"></script>
+    <footer class="site-footer">Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser ||
+        CS 310 Web Development</footer>
 </body>
 </html>
