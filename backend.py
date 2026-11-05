@@ -95,13 +95,28 @@ def chat():
     #request to get JSON
  
     # Keep only the last 10 turns and cap length, to limit cost and abuse.
-
-
-    #Keep chat history
-
-
+    messages = [
+        {"role": m["role"], "content": str(m.get("content", ""))[:1000]}
+        for m in history[-10:]
+        if m.get("role") in ("user", "assistant")
+    ]
+    if not messages or messages[-1]["role"] != "user":
+        return jsonify(error="Send a message first."), 400
 
     #create chat bot
+ 
+    try:
+        response = client.chat.completions.create(
+            model=CHAT_MODEL,
+            messages=[{"role": "system", "content": SYSTEM_PROMPT}] + messages,
+            max_completion_tokens=300,
+        )
+        return jsonify(reply=response.choices[0].message.content)
+    except Exception as exc:
+        app.logger.exception("OpenAI error")
+        return jsonify(error="The operator is unavailable. Try again shortly."), 502
+
+
  
 
 if __name__ == "__main__":

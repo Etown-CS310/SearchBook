@@ -30,4 +30,52 @@
     const history = [];   // {role, content} pairs sent to the server each time
 
     //addMessage functon - TODO
+
+    function addMessage(text, kind) {
+        const div = document.createElement("div");
+        div.className = "sb-msg " + kind;
+        div.textContent = text;   // textContent, not innerHTML, so replies can't inject HTML
+        log.appendChild(div);
+        log.scrollTop = log.scrollHeight;
+    }
+ 
+    toggle.addEventListener("click", () => {
+        const open = panel.classList.toggle("open");
+        toggle.setAttribute("aria-expanded", open);
+        if (open) {
+            if (!log.children.length) {
+                addMessage("SearchBook operator. Ask me about domains, IP addresses, pings, or your results.", "bot");
+            }
+            input.focus();
+        }
+    });
+ 
+    chatForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+ 
+        addMessage(text, "user");
+        history.push({ role: "user", content: text });
+        input.value = "";
+        send.disabled = true;
+ 
+        try {
+            const res = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages: history }),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Something went wrong.");
+            addMessage(data.reply, "bot");
+            history.push({ role: "assistant", content: data.reply });
+        } catch (err) {
+            addMessage(err.message, "error");
+            history.pop();   // drop the failed question so history stays in turn order
+        } finally {
+            send.disabled = false;
+            input.focus();
+        }
+    });
 })();
