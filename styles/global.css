@@ -185,3 +185,126 @@ a:hover {
         font-size: 2.1rem;
     }
 }
+
+
+/* ---------- Operator chat (shared, loaded by js/chat.js) ---------- */
+
+.sb-chat-dock {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 1200;                       /* above the header and the Leaflet map */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+}
+
+.sb-chat-toggle {
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #FFFDF5;
+    background: #1A365D;
+    border: 3px double #FFFDF5;
+    outline: 2px solid #1C1917;
+    padding: 0.6rem 1.1rem;
+    box-shadow: 3px 3px 0 #1C1917;
+    cursor: pointer;
+}
+
+.sb-chat-toggle:hover {
+    background: #B83A24;
+}
+
+.sb-chat-toggle:active {
+    box-shadow: none;
+    transform: translate(1px, 1px);
+}
+
+.sb-chat {
+    width: min(340px, calc(100vw - 3rem));
+    height: min(440px, calc(100vh - 10rem));
+    display: flex;
+    flex-direction: column;
+    background: #F7EFEB;                 /* page body tan */
+    border: 2px solid #1C1917;
+    box-shadow: 3px 3px 0 #1C1917;
+}
+
+.sb-chat[hidden] {
+    display: none;
+}
+
+.sb-chat-head {
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #FFFDF5;
+    background: #1A365D;                 /* telecom navy */
+    padding: 0.6rem 0.875rem;
+    border-bottom: 2px solid #1C1917;
+}
+
+.sb-chat-log {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0.75rem 0.75rem 0;
+    padding: 0.75rem;
+    background: #FFFDF5;                 /* off-white chat surface */
+    border: 1px solid #1C1917;
+    box-shadow: inset 1px 1px 0 rgba(28, 25, 23, 0.15);
+    font-size: 0.875rem;
+}
+
+.sb-chat-form {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem;
+}
+
+.sb-chat-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.45rem 0.6rem;
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    border-radius: 0;
+    box-shadow: inset 1px 1px 0 rgba(28, 25, 23, 0.15);
+    color: #1C1917;
+}
+
+.sb-chat-input:focus {
+    outline: 2px solid #B83A24;
+    box-shadow: 0 0 0 3px #E0A100;
+}
+
+.sb-chat-send {
+    font-family: "Courier Prime", monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #FFFDF5;
+    background: #B83A24;
+    border: 1px solid #1C1917;
+    padding: 0 0.875rem;
+    box-shadow: 2px 2px 0 #1C1917;
+    cursor: pointer;
+}
+
+.sb-chat-send:hover {
+    background: #1A365D;
+}
+
+.sb-chat-send:active {
+    box-shadow: none;
+    transform: translate(1px, 1px);
+}
+
+@media (max-width: 767px) {
+    .sb-chat-dock {
+        right: 1rem;
+        bottom: 1rem;
+    }
+}
