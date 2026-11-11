@@ -116,7 +116,7 @@ def lookup():
         lookup_time_ms=round((time.perf_counter() - start) * 1000),
     )
 
-@app.route("/api/chat", methods=["POST"])
+@app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json(silent=True) or {}
     history = data.get("messages", [])
