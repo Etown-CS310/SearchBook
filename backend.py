@@ -27,14 +27,15 @@ app = Flask(__name__, static_folder=".", static_url_path="")
 #
 # The service account key IS a secret (full admin access to the project), unlike
 # the web apiKey in js/firebase.js. It stays out of Git (see .gitignore).
-# FIREBASE_SERVICE_ACCOUNT_PATH in .env (see .env.example).
+# Get one from Firebase console > Project settings > Service accounts > Generate new
+# private key, and set its path as FIREBASE_SERVICE_ACCOUNT_PATH in .env (see .env.example).
 #
 # If it's missing, log why and keep db = None: lookups still work, pings just aren't saved.
 db = None
 key_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH")
 if not key_path or not os.path.isfile(key_path):
     app.logger.error("Firebase Admin not configured: FIREBASE_SERVICE_ACCOUNT_PATH in .env "
-                     "is missing or wrong (see TODO(RYDER) in .env.example). Pings won't be saved.")
+                     "is missing or wrong (see .env.example). Pings won't be saved.")
 else:
     try:
         firebase_admin.initialize_app(credentials.Certificate(key_path))
