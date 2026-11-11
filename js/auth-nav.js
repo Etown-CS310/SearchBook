@@ -13,6 +13,14 @@ onAuthStateChanged(auth, (user) => {
     link.textContent = user ? `Log Out (${user.displayName || user.email})` : "Log In";
 });
 
+// JavaScript.js (a plain script, so it can't import Firebase) calls this to get the ID token
+// it sends with /lookup. authStateReady() waits for Firebase to restore the session on page
+// load; otherwise a search right after loading would look logged out.
+window.getIdToken = async () => {
+    await auth.authStateReady();
+    return auth.currentUser ? auth.currentUser.getIdToken() : null;
+};
+
 link.addEventListener("click", (event) => {
     if (!auth.currentUser) return; // signed out: follow the link to the login page
     event.preventDefault();
