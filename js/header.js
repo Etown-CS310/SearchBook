@@ -13,7 +13,7 @@
                 <a href="/web_src/stats.html" class="nav-btn">Statistics</a>
                 <a href="/web_src/dictionary.html" class="nav-btn">Dictionary</a>
                 <a href="/web_src/about.html" class="nav-btn">About</a>
-                <a href="/web_src/login.html" class="nav-btn">Log In</a>
+                <a href="/web_src/login.html" class="nav-btn" id="nav-login">Log In</a>
             </nav>
         </header>`;
 
@@ -22,4 +22,11 @@
             link.setAttribute("aria-current", "page");
         }
     });
+
+    // Load the Log In / Log Out toggle. It imports the Firebase SDK, so it must be a module;
+    // adding it here puts it on every page without editing each one.
+    const authNav = document.createElement("script");
+    authNav.type = "module";
+    authNav.src = "/js/auth-nav.js";
+    document.head.appendChild(authNav);
 })();

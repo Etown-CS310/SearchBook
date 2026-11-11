@@ -89,3 +89,9 @@
     transform: translate(3px, 3px);
     box-shadow: 0 0 0 #1C1917;
 }
+
+/* Signup's email/password wrapper: lay its fields out as if the div weren't there
+   (part of the form's flex column). :not([hidden]) lets js/signup.js still hide it. */
+.credential-fields:not([hidden]) {
+    display: contents;
+}

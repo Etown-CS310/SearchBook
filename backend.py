@@ -5,6 +5,7 @@ Setup:  pip install -r Requirements.txt
 Run:    python backend.py
 Open:   http://127.0.0.1:5000
 """
+import os
 import socket
 import time
 
@@ -13,10 +14,33 @@ from flask import Flask, jsonify, request, send_from_directory
 from ping3 import ping
 from openai import OpenAI
 from dotenv import load_dotenv
+import firebase_admin
+from firebase_admin import credentials, firestore
 
 load_dotenv()
 
 app = Flask(__name__, static_folder=".", static_url_path="")
+
+# ---- Firebase Admin SDK ----------------------------------------------------
+# Flask, not the browser, writes ping counters. The Admin SDK bypasses
+# firestore.rules, which is why the rules can deny those writes to every client.
+#
+# The service account key IS a secret (full admin access to the project), unlike
+# the web apiKey in js/firebase.js. It stays out of Git (see .gitignore).
+# FIREBASE_SERVICE_ACCOUNT_PATH in .env (see .env.example).
+#
+# If it's missing, log why and keep db = None: lookups still work, pings just aren't saved.
+db = None
+key_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH")
+if not key_path or not os.path.isfile(key_path):
+    app.logger.error("Firebase Admin not configured: FIREBASE_SERVICE_ACCOUNT_PATH in .env "
+                     "is missing or wrong (see TODO(RYDER) in .env.example). Pings won't be saved.")
+else:
+    try:
+        firebase_admin.initialize_app(credentials.Certificate(key_path))
+        db = firestore.client()
+    except Exception:
+        app.logger.exception("Firebase Admin failed to start; pings won't be saved.")
 
 FIBER_KM_PER_MS = 200 # Speed of Fiber optic
 

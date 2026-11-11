@@ -16,15 +16,23 @@
 
     <main class="page">
         <div class="login-box">
-            <form id="login-form">
-                <label for="username">Username or Email</label>
-                <input type="text" id="username" name="username" placeholder="jane@example.com" required>
+            <!-- Filled in by js/login.js when something goes wrong. -->
+            <p id="message" class="message" hidden></p>
+
+            <!-- novalidate: js/login.js does the checks so errors show in our own message box. -->
+            <form id="login-form" novalidate>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" required>
 
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required>
+                <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
 
-                <button type="submit">Log In</button>
+                <a href="reset.html">Forgot password?</a>
+
+                <button type="submit" id="login-btn">Log In</button>
             </form>
+
+            <button type="button" id="google-btn">Continue with Google</button>
         </div>
         <div class="login-box">
             <form id="signup-form">
@@ -36,5 +44,7 @@
 
     <footer class="site-footer">Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser ||
         CS 310 Web Development</footer>
+
+    <script type="module" src="../js/login.js"></script>
 </body>
 </html>

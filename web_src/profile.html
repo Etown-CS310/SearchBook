@@ -22,11 +22,18 @@
     <div id="site-header"></div>
     <script src="../js/header.js"></script>
     <div class="page">
-        <main>
+        <!-- Hidden until js/profile.js confirms someone is signed in, so a signed-out visitor
+             never sees a flash of the page before being redirected to login. -->
+        <main id="profile-page" hidden>
             <section class="intro">
                 <p class="intro-kicker">Where have you traveled?</p>
-                <h2>[userName]'s Page</h2>
+                <h2><span id="profile-username">[userName]</span>'s Page</h2>
             </section>
+
+            <div id="verify-banner" class="message info" hidden>
+                Please verify your email address. We sent a link to your inbox.
+                <button id="resend-btn" type="button">Resend email</button>
+            </div>
         <div class="userStatBox" id="user-info">
             <p>Days in SearchBook:</p>
             <p>Distance Traveled:</p>
@@ -42,6 +49,7 @@
 
     </div>
 
+    <script type="module" src="../js/profile.js"></script>
 </body>
 
 </html>

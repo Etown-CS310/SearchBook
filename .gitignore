@@ -1,3 +1,8 @@
 .env
 *.db
 
+# Firebase service account keys give FULL ADMIN access to the project (unlike the public
+# web apiKey in js/firebase.js). Never commit them. The first pattern is Firebase's own filename.
+*-firebase-adminsdk-*.json
+serviceAccountKey*.json
+secrets/

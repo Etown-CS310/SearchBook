@@ -1,0 +1,58 @@
+rules_version = '2';
+
+// SearchBook Firestore security rules.
+// Publish: firebase deploy --only firestore:rules  (or paste into console > Firestore > Rules).
+//
+// * Browsers are untrusted (anyone can send requests from DevTools); these rules are the guard.
+// * Flask uses the Admin SDK, which BYPASSES these rules. That's how it updates ping counters
+//   even though no client is allowed to.
+// * Anything not explicitly allowed is DENIED, so there are no "allow ...: if false" lines.
+//   No client may update or delete anything, and no client may write domains or leaderboard.
+// * Rules that read a missing field or a null request.auth fail, which also means DENY.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // users/{uid}: private profile (holds the email). Doc ID = Firebase Auth uid.
+    match /users/{uid} {
+      allow read: if request.auth.uid == uid;
+
+      // Created once at sign-up, by its owner, in a fresh state:
+      //   * no fields beyond these six (and each one is checked below, so none can be missing)
+      //   * counters at 0 and createdAt = the server's time, so no free stats or fake join date
+      //   * the usernames/{usernameLower} doc written in the same transaction points back here,
+      //     so a profile can only use a name it actually reserved
+      allow create: if request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(
+             ['username', 'usernameLower', 'email', 'pingsSent', 'totalDistanceKm', 'createdAt'])
+        && request.resource.data.username.matches('^[A-Za-z0-9_]{3,20}$')
+        && request.resource.data.usernameLower == request.resource.data.username.lower()
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.pingsSent == 0
+        && request.resource.data.totalDistanceKm == 0
+        && request.resource.data.createdAt == request.time
+        && getAfter(/databases/$(database)/documents/usernames/$(request.resource.data.usernameLower)).data.uid == uid;
+    }
+
+    // usernames/{usernameLower}: { uid }. Makes usernames unique, since a doc ID can exist only
+    // once. Public read so sign-up can check availability. Created only by the uid it stores,
+    // together with that user's own profile using this same name (stops one account hoarding
+    // names). No update or delete, so a name can never be stolen or freed.
+    match /usernames/{name} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['uid'])
+        && request.resource.data.uid == request.auth.uid
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.usernameLower == name;
+    }
+
+    // domains/{domain}: global per-site stats. leaderboard/{uid}: public { username,
+    // totalDistanceKm } copy, because users/{uid} is private. Both are read-only to clients and
+    // written only by Flask, so the totals can't be faked from a browser.
+    match /domains/{domain} {
+      allow read: if true;
+    }
+    match /leaderboard/{uid} {
+      allow read: if true;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchBook — Reset Password</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600;700&family=Source+Serif+4&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/login.css">
+</head>
+<body>
+
+    <div id="site-header"></div>
+    <script src="../js/header.js"></script>
+
+    <main class="page">
+        <div class="login-box">
+            <h2>Reset your password</h2>
+            <p id="message" class="message" hidden></p>
+
+            <form id="reset-form" novalidate>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" required>
+
+                <button type="submit" id="reset-btn">Send Reset Link</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">Elizabethtown College 2026-2027 || Teddy Bazyar ~ Ryder Paulus ~ Chase Dornblaser ||
+        CS 310 Web Development</footer>
+
+    <script type="module" src="../js/reset.js"></script>
+</body>
+</html>
