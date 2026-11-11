@@ -6,6 +6,7 @@ Run:    python backend.py
 Open:   http://127.0.0.1:5000
 """
 import os
+import re
 import socket
 import time
 
@@ -15,7 +16,7 @@ from ping3 import ping
 from openai import OpenAI
 from dotenv import load_dotenv
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import auth, credentials, firestore
 
 load_dotenv()
 
@@ -57,11 +58,82 @@ telephone metaphor when it helps. If asked about something unrelated to the
 internet, DNS, or this site, politely steer back to those topics."""
 
 def clean_domain(text):
-    text = text.strip().lower()
-    for prefix in ("https://", "http://"):
-        if text.startswith(prefix):
-            text = text[len(prefix):]
-    return text.split("/")[0]
+    """'HTTPS://www.Example.com:8080/a/?q=1' -> 'www.example.com'.
+
+    Lowercase, then drop the scheme, then cut at the first / : ? or # to drop the
+    path, port, query and trailing slash. This is used for DNS, the response, and
+    (minus a leading "www.") the domains/{id} doc ID.
+    """
+    text = text.strip().lower().split("://", 1)[-1]
+    return re.split(r"[/:?#]", text)[0]
+
+
+def current_uid():
+    """Firebase uid from the "Authorization: Bearer <ID token>" header, or None.
+
+    No header, a bad/expired token, or Firebase not set up all count as logged out,
+    so a token problem never breaks the lookup itself.
+    """
+    header = request.headers.get("Authorization", "")
+    if db is None or not header.startswith("Bearer "):
+        return None
+    try:
+        return auth.verify_id_token(header[len("Bearer "):])["uid"]
+    except Exception as exc:
+        app.logger.warning("Rejected ID token: %s", exc)
+        return None
+
+
+def record_ping(result, uid):
+    """Save one lookup to Firestore in ONE transaction, so the domain's totals and
+    the user's totals always move together (replaces BEGIN ... COMMIT in setup.sql).
+
+    - domains/{id}: every lookup counts, logged in or not. Refreshes IP/location,
+      bumps totalPings, and sets firstPingedAt only the first time.
+    - users/{uid} + leaderboard/{uid}: only when logged in with a finished profile.
+      A ping with no reply still counts as sent, but adds no distance.
+    """
+    # "www.example.com" and "example.com" share one doc. DNS still used what was typed.
+    domain_ref = db.collection("domains").document(result["domain"].removeprefix("www."))
+    user_ref = db.collection("users").document(uid) if uid else None
+    km = result["fiber_km"] or 0
+
+    @firestore.transactional
+    def write(tx):
+        # Firestore transactions must do every read before any write.
+        is_new = not domain_ref.get(transaction=tx).exists
+        user = user_ref.get(transaction=tx) if user_ref else None
+
+        domain = {
+            "domainUrl": domain_ref.id,
+            "ipAddress": result["ip"],
+            "city": result["city"],
+            "region": result["region"],
+            "country": result["country"],
+            "latitude": result["lat"],
+            "longitude": result["lon"],
+            "isp": result["isp"],
+            "totalPings": firestore.Increment(1),
+            "lastPingedAt": firestore.SERVER_TIMESTAMP,
+        }
+        if is_new:
+            domain["firstPingedAt"] = firestore.SERVER_TIMESTAMP
+        tx.set(domain_ref, domain, merge=True)
+
+        # user.exists is False for a Google account that hasn't picked a username yet.
+        if user and user.exists:
+            tx.update(user_ref, {
+                "pingsSent": firestore.Increment(1),
+                "totalDistanceKm": firestore.Increment(km),
+            })
+            # Public copy for the top-users table (users/{uid} is private). Computed from
+            # the value read in this same transaction, so it always matches users/{uid}.
+            tx.set(db.collection("leaderboard").document(uid), {
+                "username": user.get("username"),
+                "totalDistanceKm": user.get("totalDistanceKm") + km,
+            })
+
+    write(db.transaction())
 
 
 @app.route("/")
@@ -98,7 +170,7 @@ def lookup():
     except requests.RequestException:
         geo = {}
 
-    return jsonify(
+    result = dict(
         domain=domain,
         ip=ip,
         city=geo.get("city"),
@@ -112,6 +184,16 @@ def lookup():
         fiber_miles=round(fiber_km * 0.621) if fiber_km else None,
         lookup_time_ms=round((time.perf_counter() - start) * 1000),
     )
+
+    # 4. Save to Firestore. lookup_time_ms is measured before this, so saving doesn't
+    # inflate it, and a failed save is only logged: the user still gets their result.
+    if db is not None:
+        try:
+            record_ping(result, current_uid())
+        except Exception:
+            app.logger.exception("Couldn't save ping for %s", domain)
+
+    return jsonify(result)
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
