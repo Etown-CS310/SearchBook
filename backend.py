@@ -72,6 +72,33 @@ def home():
     return send_from_directory(".", "index.html")
 
 
+# ---- Per-user ping tracking (STUBS) ----------------------------------------
+# Signed-in lookups will update users/{uid}: pingsSent and totalDistanceKm.
+# Only Flask writes these (Admin SDK); firestore.rules block browsers from changing them.
+
+def current_uid():
+    """TODO: return the signed-in user's Firebase uid, or None if logged out.
+
+    Plan: read the "Authorization: Bearer <ID token>" header that JavaScript.js sends,
+    verify it with firebase_admin.auth.verify_id_token(), and return its "uid".
+    A missing or bad token, or db being None, counts as logged out (return None),
+    so a token problem never breaks the lookup itself.
+    """
+    return None
+
+
+def record_user_ping(uid, fiber_km):
+    """TODO: credit one lookup to users/{uid}.
+
+    Plan (only when uid is set and users/{uid} exists, i.e. the profile is finished):
+      - pingsSent        += 1                     (always, even if the ping failed)
+      - totalDistanceKm  += fiber_km, or 0 when the ping got no reply (fiber_km is None)
+    Use firestore.Increment() so two lookups at once can't overwrite each other.
+    Distance is stored in km only; the profile page converts to miles for display.
+    """
+    pass
+
+
 @app.route("/lookup")
 def lookup():
     start = time.perf_counter()
@@ -100,6 +127,13 @@ def lookup():
         geo = requests.get(f"http://ip-api.com/json/{ip}", timeout=5).json()
     except requests.RequestException:
         geo = {}
+
+    # 4. Credit the ping to the signed-in user (stub: does nothing yet).
+    # TODO: wrap in try/except and only log failures, so a failed save never
+    # hides the lookup result from the user.
+    uid = current_uid()
+    if uid and db is not None:
+        record_user_ping(uid, fiber_km)
 
     return jsonify(
         domain=domain,

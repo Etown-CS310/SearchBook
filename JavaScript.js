@@ -44,6 +44,11 @@ form.addEventListener("submit", async (event) => {
     results.textContent = "Searching...";
 
     try {
+        // TODO (ping tracking): when signed in, send the Firebase ID token so Flask can credit
+        // this ping to the user (current_uid() in backend.py). Plan:
+        //   const token = await window.getIdToken?.().catch(() => null);
+        //   fetch(url, token ? { headers: { Authorization: `Bearer ${token}` } } : {})
+        // window.getIdToken is stubbed in js/auth-nav.js.
         const response = await fetch("/lookup?domain=" + encodeURIComponent(domain));
         const data = await response.json();
 
