@@ -16,7 +16,7 @@ from ping3 import ping
 from openai import OpenAI
 from dotenv import load_dotenv
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import auth, credentials, firestore
 
 load_dotenv()
 
@@ -72,6 +72,62 @@ def home():
     return send_from_directory(".", "index.html")
 
 
+# ---- Per-user ping tracking + leaderboard ----------------------------------
+# Signed-in lookups update users/{uid} (private) AND leaderboard/{uid} (public copy with
+# just the username and the two counters, because users/{uid} also holds the email).
+# Only Flask writes these (Admin SDK); firestore.rules block browsers from changing them.
+
+LEADERBOARD_LIMIT = 10   # rows shown on the main page; the totals still count everyone
+
+def current_uid():
+    """Return the signed-in user's Firebase uid, or None if logged out.
+
+    JavaScript.js sends "Authorization: Bearer <ID token>"; we verify it with Firebase.
+    A missing or bad token, or db being None, counts as logged out (return None),
+    so a token problem never breaks the lookup itself.
+    """
+    if db is None:
+        return None
+    header = request.headers.get("Authorization", "")
+    if not header.startswith("Bearer "):
+        return None
+    try:
+        return auth.verify_id_token(header[len("Bearer "):])["uid"]
+    except Exception:
+        app.logger.warning("Ignoring an invalid or expired ID token.")
+        return None
+
+
+def record_user_ping(uid, fiber_km):
+    """Credit one lookup to users/{uid} and leaderboard/{uid}.
+
+    Only when users/{uid} exists (the profile is finished):
+      - pingsSent        += 1                     (always, even if the ping failed)
+      - totalDistanceKm  += fiber_km, or 0 when the ping got no reply (fiber_km is None)
+    firestore.Increment() makes Firestore add on its side, so two lookups at once can't
+    overwrite each other. Distance is stored in km only; pages convert to miles for display.
+    """
+    user_ref = db.collection("users").document(uid)
+    user = user_ref.get()
+    if not user.exists:
+        return
+
+    km = fiber_km or 0
+    batch = db.batch()   # both writes succeed together or not at all
+    batch.update(user_ref, {
+        "pingsSent": firestore.Increment(1),
+        "totalDistanceKm": firestore.Increment(km),
+    })
+    # merge=True creates leaderboard/{uid} on the user's first ping and adds to it after that.
+    # Usernames can't change (firestore.rules), so copying it each time is safe.
+    batch.set(db.collection("leaderboard").document(uid), {
+        "username": user.to_dict().get("username"),
+        "pingsSent": firestore.Increment(1),
+        "totalDistanceKm": firestore.Increment(km),
+    }, merge=True)
+    batch.commit()
+
+
 @app.route("/lookup")
 def lookup():
     start = time.perf_counter()
@@ -101,6 +157,15 @@ def lookup():
     except requests.RequestException:
         geo = {}
 
+    # 4. Credit the ping to the signed-in user. A failed save is only logged, so it
+    # never hides the lookup result from the user.
+    try:
+        uid = current_uid()
+        if uid:
+            record_user_ping(uid, fiber_km)
+    except Exception:
+        app.logger.exception("Couldn't save this ping to the leaderboard.")
+
     return jsonify(
         domain=domain,
         ip=ip,
@@ -115,6 +180,43 @@ def lookup():
         fiber_miles=round(fiber_km * 0.621) if fiber_km else None,
         lookup_time_ms=round((time.perf_counter() - start) * 1000),
     )
+
+@app.route("/leaderboard")
+def leaderboard():
+    """Standings for the main page: ?sort=pings (default) or ?sort=distance."""
+    sort = request.args.get("sort", "pings")
+    if sort not in ("pings", "distance"):
+        return jsonify(error="sort must be 'pings' or 'distance'."), 400
+    if db is None:
+        return jsonify(error="The leaderboard is unavailable right now."), 503
+
+    try:
+        rows = [doc.to_dict() for doc in db.collection("leaderboard").stream()]
+    except Exception:
+        app.logger.exception("Couldn't read the leaderboard.")
+        return jsonify(error="The leaderboard is unavailable right now."), 503
+
+    entries = [{
+        "username": row.get("username") or "unknown",
+        "pingsSent": int(row.get("pingsSent") or 0),
+        "totalDistanceKm": row.get("totalDistanceKm") or 0,
+    } for row in rows]
+
+    # Sort by the chosen column, then the other column, then name, so ties are stable.
+    first, second = (("pingsSent", "totalDistanceKm") if sort == "pings"
+                     else ("totalDistanceKm", "pingsSent"))
+    entries.sort(key=lambda e: (-e[first], -e[second], e["username"].lower()))
+
+    totals = {  # everyone on the board, not just the rows shown
+        "users": len(entries),
+        "pingsSent": sum(e["pingsSent"] for e in entries),
+        "totalDistanceKm": sum(e["totalDistanceKm"] for e in entries),
+    }
+    top = entries[:LEADERBOARD_LIMIT]
+    for rank, entry in enumerate(top, start=1):
+        entry["rank"] = rank
+    return jsonify(sort=sort, entries=top, totals=totals)
+
 
 @app.route("/chat", methods=["POST"])
 def chat():

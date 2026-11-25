@@ -16,12 +16,20 @@ onAuthStateChanged(auth, async (user) => {
         if (!profile) return (window.location.href = "/web_src/signup.html"); // never picked a username
 
         document.getElementById("profile-username").textContent = profile.username;
+        renderStats(profile);
         document.getElementById("verify-banner").hidden = user.emailVerified; // Google accounts are pre-verified
         document.getElementById("profile-page").hidden = false;
     } catch (error) {
         friendlyError(error); // logs it
     }
 });
+
+// TODO (ping tracking): fill the stat lines in profile.html from users/{uid}. Plan:
+//   - stat-days:     whole days since profile.createdAt (a Firestore Timestamp: .toDate())
+//   - stat-distance: profile.totalDistanceKm shown as "X km (Y mi)", miles = km * 0.621
+//   - stat-pings:    profile.pingsSent (failed pings count here but added 0 km)
+// Stub: leaves the lines blank.
+function renderStats(profile) {}
 
 resendBtn.addEventListener("click", async () => {
     try {

@@ -76,6 +76,7 @@ field lists below are enforced by `firestore.rules` and the code that writes the
 | --- | --- | --- | --- |
 | `users` | Firebase Auth uid | Browser at sign-up | Only that user |
 | `usernames` | Username in lowercase | Browser at sign-up | Anyone |
+| `leaderboard` | Firebase Auth uid | Flask, on a signed-in user's first search and after | Anyone |
 
 #### `users/{uid}`: private profile
 
@@ -84,8 +85,8 @@ field lists below are enforced by `firestore.rules` and the code that writes the
 | `username` | string | Display name as typed (3-20 letters, numbers, underscores) |
 | `usernameLower` | string | Lowercase copy, used to keep names unique regardless of case |
 | `email` | string | The account's email (why this doc is private) |
-| `pingsSent` | number | Starts at 0 (not updated yet) |
-| `totalDistanceKm` | number | Starts at 0 (not updated yet) |
+| `pingsSent` | number | Starts at 0; Flask adds 1 for every search made while signed in (even if the ping got no reply) |
+| `totalDistanceKm` | number | Starts at 0; Flask adds the search's fiber distance in km (0 if the ping got no reply) |
 | `createdAt` | timestamp | Join date, set by Firestore's clock |
 
 #### `usernames/{usernameLower}`: username reservations
@@ -98,6 +99,23 @@ Firestore has no UNIQUE constraint, so a username is reserved by making it a doc
 which can exist only once. Sign-up creates this doc and `users/{uid}` in one transaction,
 and the rules block updates and deletes, so a name can't be stolen or freed.
 
+#### `leaderboard/{uid}`: public standings
+
+A public copy of each user's counters, because `users/{uid}` is private (it holds the
+email). It never contains an email.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `username` | string | Display name, copied from `users/{uid}` |
+| `pingsSent` | number | Total searches made while signed in |
+| `totalDistanceKm` | number | Total estimated fiber distance, in km |
+
+Only Flask writes this (Admin SDK, which bypasses `firestore.rules`); the rules let anyone
+read it and nobody write it, so the numbers can't be faked from a browser. A user's doc is
+created by their first signed-in search, so people who have never searched aren't listed.
+Flask updates `users/{uid}` and `leaderboard/{uid}` in one batch, with Firestore's
+`Increment`, so two searches at the same moment can't overwrite each other.
+
 ### Firebase CLI (deploying rules)
 
 `firebase.json` points the CLI at `firestore.rules`, and `.firebaserc` sets the project
@@ -109,13 +127,11 @@ firebase login                             # sign in with a Google account on th
 firebase deploy --only firestore:rules     # publish firestore.rules
 ```
 
-<<<<<<< HEAD
-=======
 ## API Documentation
  
 SearchBook has three kinds of "endpoints":
  
-1. **Flask routes** in `backend.py`, called by our own pages (`/chat` and `/lookup`).
+1. **Flask routes** in `backend.py`, called by our own pages (`/chat`, `/lookup` and `/leaderboard`).
 2. **Firebase calls** made straight from the browser by `js/signup.js` and `js/login.js`.
    There is no Flask route for accounts: the Firebase SDK talks to Google's servers, so
    those "endpoints" are SDK function calls instead of URLs.
@@ -132,6 +148,7 @@ look like `{"error": "message"}`.
 | `GET http://ip-api.com/json/` | `js/netstats.js` | Find the visitor's approximate location |
 | `GET <regional test URL>` (5 servers) | `js/netstats.js`, `js/regions.js` | Time a round trip to each region |
 | `GET /lookup` | `JavaScript.js` | Look up a domain (the main search) |
+| `GET /leaderboard` | `js/leaderboard.js` | Get the top callers and the combined totals |
  
 ---
  
@@ -446,6 +463,14 @@ and roughly how far the signal traveled through fiber.
 | Parameter | Type | Required | Notes |
 | --- | --- | --- | --- |
 | `domain` | query string | Yes | A full URL is fine. The server lowercases it and removes the scheme, port, path and query, so `HTTPS://www.Example.com:8080/a/?q=1` becomes `www.example.com`. |
+
+**Optional header:** `Authorization: Bearer <Firebase ID token>`. `JavaScript.js` sends it
+automatically when someone is signed in (the token comes from `window.getIdToken()` in
+`js/auth-nav.js`). Flask verifies it and, if the user has finished sign-up, adds 1 to their
+`pingsSent` and the fiber distance to their `totalDistanceKm` (0 km if the ping got no reply),
+which feeds the leaderboard. Nothing is credited when the visitor is logged out, the token is
+missing or invalid, the profile doesn't exist yet, or the lookup fails (`400` or `404`). A
+failed save is only logged, so it never changes the response.
  
 **Example response, `200 OK`** (illustrative values):
  
@@ -483,7 +508,45 @@ location lookup fails. `lookup_time_ms` is how long the whole request took on th
 `GET /` returns `index.html`. Flask is also set up to serve every other file in the project
 folder as a static file (for example `/web_src/login.html` and `/js/chat.js`).
 
->>>>>>> 3ea32b07c6c1a91b6c2718d896919ac4413b2d6c
+---
+
+### `js/leaderboard.js`: `GET /leaderboard`
+
+**Purpose:** Returns the standings shown on the main page: the top callers, ranked, plus
+combined totals for everyone. `js/leaderboard.js` loads it when the page opens, when the
+user switches the sort buttons, and again after each successful search.
+
+**Request:** `GET /leaderboard?sort=pings`
+
+| Parameter | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `sort` | query string | No | `pings` (default) ranks by most pings sent; `distance` ranks by farthest total distance. Ties are broken by the other column, then by username. |
+
+**Example response, `200 OK`** (illustrative values):
+
+```json
+{
+  "sort": "pings",
+  "entries": [
+    { "rank": 1, "username": "ryder_p", "pingsSent": 14, "totalDistanceKm": 31200 },
+    { "rank": 2, "username": "chase_d", "pingsSent": 9, "totalDistanceKm": 48750 }
+  ],
+  "totals": { "users": 2, "pingsSent": 23, "totalDistanceKm": 79950 }
+}
+```
+
+`entries` holds at most 10 rows (`LEADERBOARD_LIMIT` in `backend.py`), but `totals` counts
+every user on the board. An empty board returns `"entries": []` and zero totals. Emails are
+never included. The page shows distance as km and miles (km x 0.621).
+
+**Status codes:**
+
+| Code | When | Body |
+| --- | --- | --- |
+| `200` | Always when the database is reachable, even with no users yet | The object above |
+| `400` | `sort` is anything other than `pings` or `distance` | `{"error": "sort must be 'pings' or 'distance'."}` |
+| `503` | Firebase Admin isn't configured (`FIREBASE_SERVICE_ACCOUNT_PATH` missing) or Firestore couldn't be read | `{"error": "The leaderboard is unavailable right now."}` |
+
 # Authors
 
 Farnaz (Teddy) Bazyar - bazyarf@etown.edu
