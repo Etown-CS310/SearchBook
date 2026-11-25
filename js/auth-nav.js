@@ -13,13 +13,13 @@ onAuthStateChanged(auth, (user) => {
     link.textContent = user ? `Log Out (${user.displayName || user.email})` : "Log In";
 });
 
-// TODO (ping tracking): JavaScript.js is a plain script and can't import Firebase, so it will
-// call this to get the signed-in user's ID token for /lookup. Plan:
-//   await auth.authStateReady();   // wait for Firebase to restore the session on page load
-//   return auth.currentUser ? auth.currentUser.getIdToken() : null;
-// Stub: returns null, so /lookup can't tell who searched and credits no one. This does NOT
-// affect signing in or out; it only matters for ping tracking.
-window.getIdToken = async () => null;
+// JavaScript.js is a plain script and can't import Firebase, so it calls this to get the
+// signed-in user's ID token for /lookup. Flask verifies the token to know who to credit on
+// the leaderboard. Returns null when nobody is signed in (the search still works).
+window.getIdToken = async () => {
+    await auth.authStateReady();   // wait for Firebase to restore the session on page load
+    return auth.currentUser ? auth.currentUser.getIdToken() : null;
+};
 
 link.addEventListener("click", (event) => {
     if (!auth.currentUser) return; // signed out: follow the link to the login page

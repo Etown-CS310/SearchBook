@@ -44,12 +44,19 @@ form.addEventListener("submit", async (event) => {
     results.textContent = "Searching...";
 
     try {
-        // TODO (ping tracking): when signed in, send the Firebase ID token so Flask can credit
-        // this ping to the user (current_uid() in backend.py). Plan:
-        //   const token = await window.getIdToken?.().catch(() => null);
-        //   fetch(url, token ? { headers: { Authorization: `Bearer ${token}` } } : {})
-        // window.getIdToken is stubbed in js/auth-nav.js.
-        const response = await fetch("/lookup?domain=" + encodeURIComponent(domain));
+        // When signed in, send the Firebase ID token so Flask can credit this ping to the
+        // user and the leaderboard (current_uid() in backend.py). window.getIdToken comes from
+        // js/auth-nav.js. Logged-out visitors, or a token problem, just search without it.
+        let token = null;
+        try {
+            token = await window.getIdToken?.();
+        } catch {
+            token = null;
+        }
+        const response = await fetch(
+            "/lookup?domain=" + encodeURIComponent(domain),
+            token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+        );
         const data = await response.json();
 
         if (data.error) {
@@ -68,6 +75,9 @@ Ping (round trip): ${data.ping_ms ?? "No reply (server may block pings)"} ms
 Fiber distance (one way, approx): ${data.fiber_km ?? "n/a"} km / ${data.fiber_miles ?? "n/a"} mi
 Total lookup time: ${data.lookup_time_ms} ms`;
 
+        // The ping is already saved on the server, so refresh the standings now (js/leaderboard.js),
+        // before the map, so a map problem can't skip it.
+        window.refreshLeaderboard?.();
         showMap(data.lat, data.lon, data.domain);
     } catch (err) {
         outputBox.classList.add("is-error");

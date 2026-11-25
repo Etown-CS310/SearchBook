@@ -297,6 +297,117 @@
     background: #F3E7C4;
 }
 
+/* ---------- Leaderboard ---------- */
+
+.leaderboard {
+    margin-top: 3rem;
+}
+
+.leaderboard h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.lb-intro {
+    margin: 0 0 1rem;
+    max-width: 60ch;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #44403C;
+}
+
+.lb-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+/* The sort button that is currently active (reuses the .preset-btn look) */
+.lb-controls .preset-btn[aria-pressed="true"] {
+    background: #FFDEA8;
+    box-shadow: 0 0 0 #1C1917;
+    transform: translate(2px, 2px);
+}
+
+.lb-box {
+    background: #FFFDF5;
+    border: 2px solid #1C1917;
+    box-shadow: 4px 4px 0 #1C1917;
+    overflow-x: auto;
+}
+
+.lb-box::before {
+    content: "LONG-DISTANCE LEADERS \2014 TOP CALLERS";
+    display: block;
+    background-color: #1A365D;
+    color: #FFFDF5;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 0.6rem 1rem;
+    border-bottom: 2px solid #1C1917;
+}
+
+.lb-status {
+    margin: 0;
+    padding: 1.25rem 1.125rem;
+    font-family: "Source Serif 4", serif;
+    font-style: italic;
+    color: #57534E;
+}
+
+.lb-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lb-table th {
+    padding: 0.6rem 0.75rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: left;
+    color: #57534E;
+    border-bottom: 2px solid #1C1917;
+}
+
+.lb-table td {
+    padding: 0.65rem 0.75rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.95rem;
+    border-bottom: 1px dashed #A8A29E;
+}
+
+.lb-rank {
+    width: 3rem;
+    font-weight: 700;
+    color: #B83A24;
+}
+
+.lb-user {
+    font-family: "Newsreader", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.lb-table tbody tr:first-child td {
+    background: #FFDEA8; /* amber highlight for first place */
+}
+
+.lb-totals {
+    margin: 0;
+    padding: 0.6rem 1rem;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.8rem;
+    color: #57534E;
+    background: #F3E7C4;
+}
+
 /* ---------- Small screens ---------- */
 
 @media (max-width: 520px) {
@@ -306,5 +417,11 @@
 
     .search-box button {
         padding: 0.8rem 1.75rem;
+    }
+
+    .lb-table th,
+    .lb-table td {
+        padding: 0.5rem 0.5rem;
+        font-size: 0.8rem;
     }
 }

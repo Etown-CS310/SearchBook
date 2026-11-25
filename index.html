@@ -68,6 +68,34 @@
             </div>
         </main>
 
+        <section class="leaderboard" aria-labelledby="lb-heading">
+            <h2 id="lb-heading">Long-distance leaderboard</h2>
+            <p class="lb-intro">Who has placed the most calls, and how far did their packets travel?
+                Log in and run a search to get on the board.</p>
+
+            <div class="lb-controls" role="group" aria-label="Sort the leaderboard by">
+                <span class="presets-label">Rank by:</span>
+                <button type="button" class="preset-btn" data-sort="pings" aria-pressed="true">Most pings</button>
+                <button type="button" class="preset-btn" data-sort="distance" aria-pressed="false">Farthest distance</button>
+            </div>
+
+            <div class="lb-box">
+                <p id="lb-status" class="lb-status" role="status">Loading the standings...</p>
+                <table class="lb-table" hidden>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Pings sent</th>
+                            <th scope="col">Distance traveled</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-body"></tbody>
+                </table>
+                <p id="lb-totals" class="lb-totals" hidden></p>
+            </div>
+        </section>
+
         <section class="how">
     <h2>How to place a long-distance packet call</h2>
 
@@ -109,6 +137,7 @@
     </div>
 
     <script src="JavaScript.js"></script>
+    <script src="/js/leaderboard.js"></script>
     <script src="/js/chat.js"></script>
 </body>
 
